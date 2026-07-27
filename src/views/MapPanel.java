@@ -152,14 +152,18 @@ public class MapPanel extends JPanel {
 
     private void drawArrowHead(Graphics2D g2, int x1, int y1, int x2, int y2) {
         double angle = Math.atan2(y2 - y1, x2 - x1);
+        
+        int tipX = x2 - (int) ((NODE_RADIUS + 3) * Math.cos(angle));
+        int tipY = y2 - (int) ((NODE_RADIUS + 3) * Math.sin(angle));
+
         int arrowLen = 10;
         double a1 = angle + Math.toRadians(150);
         double a2 = angle - Math.toRadians(150);
 
-        int ax1 = x2 + (int) (arrowLen * Math.cos(a1));
-        int ay1 = y2 + (int) (arrowLen * Math.sin(a1));  //La punta de flecha
-        int ax2 = x2 + (int) (arrowLen * Math.cos(a2));
-        int ay2 = y2 + (int) (arrowLen * Math.sin(a2));
+        int ax1 = tipX + (int) (arrowLen * Math.cos(a1));
+        int ay1 = tipY + (int) (arrowLen * Math.sin(a1));  //La punta de flecha
+        int ax2 = tipX + (int) (arrowLen * Math.cos(a2));
+        int ay2 = tipY + (int) (arrowLen * Math.sin(a2));
 
         g2.drawLine(x2, y2, ax1, ay1);
         g2.drawLine(x2, y2, ax2, ay2);

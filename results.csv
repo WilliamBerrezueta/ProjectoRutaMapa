@@ -1,2 +1,5 @@
 Caso,Algoritmo,Inicio,Destino,NodosVisitados,CantidadAristas,TiempoMs
 1,BFS,A,A,1,0,0,112
+1,BFS,A,A,1,0,0,147
+1,BFS,a,c,3,2,1,111
+1,BFS,A,B,2,1,0,296

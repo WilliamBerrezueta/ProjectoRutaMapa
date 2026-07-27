@@ -24,19 +24,18 @@ public class MainFrame extends JFrame implements MapController.Listener {
     private final JComboBox<String> algoritmoCombo = new JComboBox<>(new String[]{"BFS", "DFS"});
     private final JComboBox<String> modoCombo = new JComboBox<>(new String[]{"Exploracion completa", "Ruta final"});
     private final JCheckBox bidireccionalCheck = new JCheckBox("Bidireccional", true);
-    private final JLabel statusLabel = new JLabel("Listo.");
     private EditMode editMode = EditMode.NONE;
     private String pendingFrom = null;
 
     public MainFrame(MapController controller) {
-        super("Rutas en mapa de calles - BFS y DFS");
+        super("Rutas en mapa - BFS y DFS");
         this.controller = controller;
         controller.setListener(this);
+
 
         setLayout(new BorderLayout());
         add(mapPanel, BorderLayout.CENTER);
         add(buildControlPanel(), BorderLayout.EAST);
-        add(statusLabel, BorderLayout.SOUTH);
 
         //se usa una implementación anónima aquí para poder darle nombres a los métodos de reenvío
         mapPanel.setListener(new MapPanel.Listener() {
@@ -63,7 +62,7 @@ public class MainFrame extends JFrame implements MapController.Listener {
         panel.add(sectionLabel("Mapa"));
         panel.add(buttonFor("Cargar imagen de mapa", e -> cargarImagen()));
         panel.add(Box.createVerticalStrut(10));
-        panel.add(sectionLabel("Edicion de nodos y aristas"));
+        panel.add(sectionLabel("Nodos y aristas"));
         ButtonGroup modeGroup = new ButtonGroup();
         panel.add(modeToggle("Agregar nodo", EditMode.AGREGAR_NODO, modeGroup));
         panel.add(modeToggle("Conectar nodos", EditMode.CONECTAR, modeGroup));
@@ -76,12 +75,12 @@ public class MainFrame extends JFrame implements MapController.Listener {
         panel.add(buttonFor("Cargar configuracion", e -> cargarConfiguracion()));
         panel.add(Box.createVerticalStrut(10));
         panel.add(sectionLabel("Busqueda de ruta"));
-        panel.add(labeled("Inicio (A):", inicioCombo));
-        panel.add(labeled("Destino (B):", destinoCombo));
+        panel.add(labeled("Inicio:", inicioCombo));
+        panel.add(labeled("Destino:", destinoCombo));
         panel.add(labeled("Algoritmo:", algoritmoCombo));
         panel.add(labeled("Modo:", modoCombo));
-        panel.add(buttonFor("Ejecutar busqueda", e -> ejecutarBusqueda()));
-        panel.add(buttonFor("Limpiar recorrido", e -> mapPanel.clearHighlights()));
+        panel.add(buttonFor("Buscar", e -> ejecutarBusqueda()));
+        panel.add(buttonFor("Limpiar", e -> mapPanel.clearHighlights()));
         panel.add(buttonFor("Nuevo caso de comparacion", e -> nuevoCaso()));
         panel.add(Box.createVerticalGlue());
         return panel;
@@ -107,7 +106,6 @@ public class MainFrame extends JFrame implements MapController.Listener {
         toggle.addActionListener(e -> {
             editMode = toggle.isSelected() ? mode : EditMode.NONE;
             pendingFrom = null;
-            setStatus("Modo: " + (toggle.isSelected() ? text : "ninguno"));
         });
         group.add(toggle);
         return toggle;
@@ -132,9 +130,9 @@ public class MainFrame extends JFrame implements MapController.Listener {
             try {
                 BufferedImage image = ImageIO.read(chooser.getSelectedFile());
                 mapPanel.setBackgroundImage(image);
-                setStatus("Imagen de mapa cargada");
+                mostrarMensaje("Imagen de mapa cargada");
             } catch (Exception ex) {
-                setStatus("Error al cargar la imagen: " + ex.getMessage());
+                mostrarMensaje("Error al cargar la imagen: " + ex.getMessage());
             }
         }
     }
@@ -143,7 +141,7 @@ public class MainFrame extends JFrame implements MapController.Listener {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             controller.save(chooser.getSelectedFile().getAbsolutePath());
-            setStatus("Configuracion guardada.");
+            mostrarMensaje("Configuracion guardada");
         }
     }
 
@@ -151,7 +149,7 @@ public class MainFrame extends JFrame implements MapController.Listener {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             controller.load(chooser.getSelectedFile().getAbsolutePath());
-            setStatus("Configuracion cargada.");
+            mostrarMensaje("Configuracion cargada");
         }
     }
 
@@ -169,15 +167,18 @@ public class MainFrame extends JFrame implements MapController.Listener {
 
     private void nuevoCaso() {
         controller.nuevoCaso();
-        setStatus("Caso de comparacion actual: " + controller.getCasoActual());
+        mostrarMensaje("Caso de comparacion numero '" + controller.getCasoActual() + "'");
     }
 
     private void handleNodeClicked(String nodeId) {
         switch (editMode) {
+            case AGREGAR_NODO:
+                mostrarMensaje("Ya existe un nodo en esa posición");
+                break;
             case CONECTAR:
                 if (pendingFrom == null) {
                     pendingFrom = nodeId;
-                    setStatus("Nodo origen: " + nodeId + ", seleccione el destino");
+                    mostrarMensaje("Nodo origen:  " + nodeId + " , seleccione el destino");
                 } else {
                     controller.addEdge(pendingFrom, nodeId, bidireccionalCheck.isSelected());
                     pendingFrom = null;
@@ -189,28 +190,48 @@ public class MainFrame extends JFrame implements MapController.Listener {
             case ELIMINAR_ARISTA:
                 if (pendingFrom == null) {
                     pendingFrom = nodeId;
-                    setStatus("Arista desde: " + nodeId + ", seleccione el otro extremo");
+                    mostrarMensaje("Arista desde:  '" + nodeId + "' , seleccione el otro extremo");
                 } else {
                     controller.removeEdge(pendingFrom, nodeId);
                     pendingFrom = null;
                 }
                 break;
             default:
-                setStatus("Nodo: " + nodeId);
         }
     }
 
     private void handleEmptySpaceClicked(int modelX, int modelY) {
-        if (editMode == EditMode.AGREGAR_NODO) {
-            String id = JOptionPane.showInputDialog(this, "Identificador del nuevo nodo:");
-            if (id != null && !id.trim().isEmpty()) {
-                controller.addNode(id.trim(), modelX, modelY);
-            }
+        switch (editMode) {
+            case AGREGAR_NODO:
+                agregarNodoEn(modelX, modelY);
+                break;
+            case CONECTAR:
+            case ELIMINAR_NODO:
+            case ELIMINAR_ARISTA:
+                mostrarMensaje("Haz clic sobre un nodo que exista");
+                break;
+            default:
         }
     }
 
-    private void setStatus(String text) {
-        statusLabel.setText(text);
+    //Pide el nombre del nuevo nodo 
+    private void agregarNodoEn(int modelX, int modelY) {
+        String id = JOptionPane.showInputDialog(this, "Nombre del nuevo nodo:", "Nuevo nodo", JOptionPane.PLAIN_MESSAGE);
+        if (id == null) {
+            return; // el usuario cancelo
+        }
+        id = id.trim();
+        if (id.isEmpty()) {
+            mostrarMensaje("El nombre del nodo no puede estar vacío");
+            return;
+        }
+        controller.addNode(id, modelX, modelY);
+    }
+
+    //Punto donde pasan todos los mensajes de la aplicación,
+    //se muestran en la barra de estado y en un cuadro de diálogo
+    private void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Mensaje", JOptionPane.PLAIN_MESSAGE);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -264,13 +285,11 @@ public class MainFrame extends JFrame implements MapController.Listener {
     public void onAnimationFinished(PathResult<MapPoint> result, long elapsedNanos) {
         double ms = elapsedNanos / 1_000_000.0;
         if (result.hasPath()) {
-            setStatus(String.format(
+            mostrarMensaje(String.format(
                     "Busqueda completa: %d nodos visitados, ruta de %d nodos, %.3f ms.",
                     result.getVisitados().size(), result.getPath().size(), ms));
         } else {
-            setStatus(String.format(
-                    "No existe una ruta entre los nodos seleccionados (%d nodos visitados, %.3f ms).",
-                    result.getVisitados().size(), ms));
+            mostrarMensaje("No existe una ruta entre los nodos seleccionados");
         }
     }
 
@@ -280,8 +299,7 @@ public class MainFrame extends JFrame implements MapController.Listener {
     //y en un cuadro de diálogo
     @Override
     public void onError(String message) {
-        setStatus("Error: " + message);
-        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.WARNING_MESSAGE);
+        mostrarMensaje(message);
     }
 }
 
