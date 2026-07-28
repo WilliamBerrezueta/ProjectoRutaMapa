@@ -1,7 +1,7 @@
 package structures.graphs;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,12 +12,12 @@ public class Graph<T> {
     Map<Node<T>, Set<Node<T>>> nodes;
 
     public Graph(){
-        this.nodes = new HashMap<>();
+        this.nodes = new LinkedHashMap<>();
     }
 
     public void add(T value){
         Node<T> node = new Node<>(value);
-        nodes.putIfAbsent(node, new HashSet<>());
+        nodes.putIfAbsent(node, new LinkedHashSet<>());
 
     }
 
@@ -92,7 +92,7 @@ public class Graph<T> {
     public Set<Node<T>> getVecinos(T currente) {
 
         Node<T> node = new Node<>(currente);
-        return nodes.getOrDefault(node, new HashSet<>());
+        return nodes.getOrDefault(node, new LinkedHashSet<>());
     }
     
 }

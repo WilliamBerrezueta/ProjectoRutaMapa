@@ -1,5 +1,5 @@
 ![resources/images/LogoUPS.png](resources/images/LogoUPS.png)
-# <center>UNIVERSIDAD POLITECNICA SALECIANA</center>
+# <center>UNIVERSIDAD POLITECNICA SALESIANA</center>
 
 ### <center>Carrera: </center>
 
@@ -29,7 +29,7 @@
 #### 6. Diagrama UML .................................................................................6
 #### 7. Mapas .................................................................................................7
 #### 8. Tabla comparativa ...........................................................................8
-#### 9. Concluciones ....................................................................................9
+#### 9. Conclusiones ....................................................................................9
 #### 10. Recomendaciones ........................................................................10
 
 
@@ -51,7 +51,7 @@
 
 ## Introduccion y Descripcion del Problema
 
-El problema principal de nuestro proyecto es lograr demostrar la utilidad de los grafos y como estos se aplican en mapas que nos ayudan a encotrar el camino mas corto desde un punto A a un punto B. Otro desafio va a ser crear una interfaz interactiva y facil de entender para que el usuario tenga la facilitad en la interactuacion, debe de ser simple, para hacerlo debemos lograr utilizar el raton para generar los grafos visualmente donde queremos y conectarlos de esa misma forma. Tambien los grafos que se van a ver visualmente van a tener colores los cuales muestran el estado en el que estan, rojo sin recorrido,azul recorrido, verde el camino directo hacia el princio y fin, demostrando con una pequeña animacion el recorrido que genera el algroritmo seleccionado.
+El problema principal de nuestro proyecto es lograr demostrar la utilidad de los grafos y como estos se aplican en mapas que nos ayudan a encontrar el camino más corto desde un punto A a un punto B. Otro desafio va a ser crear una interfaz interactiva y facil de entender para que el usuario tenga la facilitad en la interactuacion, debe de ser simple, para hacerlo debemos lograr utilizar el raton para generar los grafos visualmente donde queremos y conectarlos de esa misma forma. Tambien los grafos que se van a ver visualmente van a tener colores los cuales muestran el estado en el que estan, rojo sin recorrido, azul recorrido, verde el camino directo hacia el principio y fin, demostrando con una pequeña animacion el recorrido que genera el algoritmo seleccionado.
 ### Como compilar y ejecutar (sin IDE)
 
 Requiere JDK 11 o superior instalado (`javac -version`).
@@ -88,7 +88,7 @@ algoritmo, inicio, destino, nodos visitados, cantidad de aristas de la ruta
 y tiempo en milisegundos.
 ## Marco Teorico
 ### Grafos: 
-Son estructuras logicas que estan compuestas por una lista de nodos los cuales ayudan a conectar los grafos directamente, esa coneccion se llama vertices, estos grafos pueden tener 0 conexiones, 1 conexion (unidireccional) o 2 conexiones (bidireccional), de forma simple es como si una calle tenga 2 sentidos, 1 sentido o no tenga salida.
+Son estructuras logicas que estan compuestas por una lista de nodos los cuales ayudan a conectar los grafos directamente, esa conexion se llama vertices, estos grafos pueden tener 0 conexiones, 1 conexion (unidireccional) o 2 conexiones (bidireccional), de forma simple es como si una calle tenga 2 sentidos, 1 sentido o no tenga salida.
 
 En codigo no es mas que un mapa generico con un nodo generico y un set de nodos genericos.
 
@@ -147,11 +147,11 @@ PROJECTORUTAMAPA/
 
 - Controllers: Contienen toda las logica que hace funcionar el proyecto.
 
-- Models: Son los modelos que nos ayudan a generar los grafos visualmente, donde esta ubicado en el mapa en coordenadas cartecianas y poder definir como se va a ver la animacion.
+- Models: Son los modelos que nos ayudan a generar los grafos visualmente, donde esta ubicado en el mapa en coordenadas cartesianas y poder definir como se va a ver la animacion.
 
 - Persistence: Guardar y cargar archivos de los grafos para facilitar las pruebas y tener datos guardados directamente en el disco duro.
 
-- Strutures: Tiene 3 subcarpetas "graphs", "node" y "graphs/implements". Esta carpeta tiene estructura de datos genericas que definen el comportamiento de los grafos (que utilizan nodos como base) y tambien contienen los algoritmos de busqueda de los grafos.
+- Structures: Tiene 3 subcarpetas "graphs", "node" y "graphs/implementations". Esta carpeta tiene estructura de datos genericas que definen el comportamiento de los grafos (que utilizan nodos como base) y tambien contienen los algoritmos de busqueda de los grafos.
 
 - Views: Son todos los archivos que sirven para poder mostrar visualmente al usuario lo que queremos que vea y que pueda interactuar directamente en ese espacio.
 
@@ -163,16 +163,29 @@ PROJECTORUTAMAPA/
 
 ![alt text](resources/images/Map1.png)
 
-Este mapa tiene 26 nodos y esta sacado del centro de Cuenca por ka Catedral de la Inmaculada
-
-imagen 2 
-
-descripcion
+Este mapa tiene 26 nodos y esta sacado del centro de Cuenca por la Catedral de la Inmaculada
 
 ## Tabla comparativa
 
-## Concluciones
+Tabla comparativa de resultados del mapa 
+
+| Caso | Algoritmo | Inicio | Destino | Nodos visitados | Cantidad de aristas | Tiempo (ms) |
+|------|-----------|--------|---------|------------------|----------------------|-------------|
+| 1    | BFS       | B      | T       | 25               | 6                    | 801         |
+| 1    | DFS       | B      | T       | 14               | 8                    | 480         |
+| 2    | BFS       | F      | W       | 22               | 7                    | 402         |
+| 2    | DFS       | F      | W       | 25               | 14                   | 423         |
+| 3    | BFS       | Y      | C       | 14               | 5                    | 511         |
+| 3    | DFS       | Y      | C       | 7                | 5                    | 143         |
+
+## Conclusiones de los Integrantes
+
+Oliver Valdiviezo: Como podemos observar en la tabla comparativa el BFS es el metodo de busqueda mas confiable para poder llegar al camino con menos aristas de por medio en promedio (el camino más corto) en nodos sin peso, denotando que en todas las comparaciones este metodo siempre encuentra la ruta más corta, pero en la mayoria de casos (esto depende mucho de como recorra los nodos) comparados el BFS tiene muchos nodos visitados y tarda más debido a recorrer más nodos,tambien usando más memoria, en cambio el DFS es un metodo más directo que simplemente busca una ruta por donde se pueda llegar y nunca garantiza que sea la que tenga menos cantidad de aristas (camino más corto) este metodo de busqueda esta muy arraigado hacia donde recorra primero los nodos vecinos porque dependiendo de hacia donde se dirija se demorará más, al utilizar menos memoria recorrera los nodos más rapido, es un metodo que es erratico pero cumple con su cometido de ser eficiente y lograr su objetivo de llegar al nodo final, aunque no sea el camino más optimo.
 
 
+## Recomendaciones y aplicaciones futuras
 
-## Recomendaciones
+Este proyecto tiene muchas cosas que podrian mejorar y agragarse para poder ser mucho más completo como nodos con peso, más metodos de busqueda de grafos, una vista para ver las comparaciones hechas directamenete en la aplicacion de escritorio, la internacionalizacion en ingles para llegar a más publico, etc. 
+
+Algo curioso que se puede ver al tener diferentes formas de construir un grafo, porque al principio habiamos utilizado un HashMap y un HashSet para guardar los nodos y agragarlos, pero este metodo provocaba que la eleccion a que nodo sea impredecible porque no se guardaban siempre en el mismo lugar, por eso lo cambiamos a un LinkedHashMap y LinkedHashSet para tener un orden definido siempre para tener pruebas más fieles y poder comparar correctamente los metodos.
+

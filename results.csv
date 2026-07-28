@@ -12,3 +12,9 @@ Caso,Algoritmo,Inicio,Destino,NodosVisitados,CantidadAristas,TiempoMs
 1,BFS,B,T,23,6,2,538
 2,BFS,B,T,23,6,0,377
 2,DFS,B,T,9,6,0,084
+2,BFS,B,T,25,6,0,801
+2,DFS,B,T,14,8,0,480
+3,BFS,F,W,22,7,1,402
+3,DFS,F,W,25,14,0,423
+4,BFS,Y,C,14,5,0,511
+4,DFS,Y,C,7,5,0,143
