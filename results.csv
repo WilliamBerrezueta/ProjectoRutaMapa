@@ -3,3 +3,12 @@ Caso,Algoritmo,Inicio,Destino,NodosVisitados,CantidadAristas,TiempoMs
 1,BFS,A,A,1,0,0,147
 1,BFS,a,c,3,2,1,111
 1,BFS,A,B,2,1,0,296
+1,BFS,B,Z,22,5,1,630
+1,DFS,B,Z,25,9,2,992
+1,DFS,B,Z,25,9,0,671
+1,DFS,B,G,14,9,0,588
+1,DFS,T,S,23,16,0,304
+1,DFS,B,T,9,6,0,345
+1,BFS,B,T,23,6,2,538
+2,BFS,B,T,23,6,0,377
+2,DFS,B,T,9,6,0,084
