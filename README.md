@@ -187,5 +187,5 @@ Oliver Valdiviezo: Como podemos observar en la tabla comparativa el BFS es el me
 
 Este proyecto tiene muchas cosas que podrian mejorar y agragarse para poder ser mucho más completo como nodos con peso, más metodos de busqueda de grafos, una vista para ver las comparaciones hechas directamenete en la aplicacion de escritorio, la internacionalizacion en ingles para llegar a más publico, etc. 
 
-Algo curioso que se puede ver al tener diferentes formas de construir un grafo, porque al principio habiamos utilizado un HashMap y un HashSet para guardar los nodos y agragarlos, pero este metodo provocaba que la eleccion a que nodo sea impredecible porque no se guardaban siempre en el mismo lugar, por eso lo cambiamos a un LinkedHashMap y LinkedHashSet para tener un orden definido siempre para tener pruebas más fieles y poder comparar correctamente los metodos.
+Algo curioso que se puede ver al tener diferentes formas de construir un grafo, porque al principio habiamos utilizado un HashMap y un HashSet para guardar los nodos y agregarlos, pero este metodo provocaba que la eleccion a que nodo sea impredecible porque no se guardaban siempre en el orden en el que se insertaban, por eso lo cambiamos a un LinkedHashMap y LinkedHashSet para tener un orden definido siempre, para tener pruebas más fieles y poder comparar correctamente los metodos.
 
