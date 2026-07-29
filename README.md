@@ -68,19 +68,6 @@ En la parte de la derecha los botones, combo box y check box se dividen en 4 cat
 * Peresistencia: Es para poder cargar y guardar las configuracion hechas de los nodos con sus respectivas aristas bidireccional o unidireccional.
 
 * Busqueda de ruta: Se elige los nodos de inicio y fin por los cuales van a ser la referencia para el metodo de busqueda de grafos que uno quiera utilizar, tambien se elige si quiere ver el recorrido completo de como va buscando el metodo de nodo a nodo o simplemente ver el camino final, despues de seleccionar todo eso se puede buscar, para inciar la busqueda, limpiar para poner los nodos del color por defecto y agregar un nuevo caso de comparacion para que se ingresen los datos que genero el metodo elegido de busqueda en el archivo results.csv que tendra todos casos, metodos, nodos visitados, aristas y tiempo de ejecucion que nos sirve para comparar los metodos. 
-### Como compilar y ejecutar (sin IDE)
-
-Requiere JDK 11 o superior instalado (`javac -version`).
-
-```bash
-# Desde la raiz del proyecto (donde esta la carpeta src/)
-mkdir -p out
-find src -name "*.java" > sources.txt
-javac -d out -encoding UTF-8 @sources.txt
-
-# Ejecutar
-java -cp out app.App
-```
 
 ### Como generar el JAR ejecutable
 
@@ -92,16 +79,15 @@ cd ..
 java -jar RouteMap.jar
 ```
 
-### Como probar rapido con datos de ejemplo
+### Ejecutar jar
+Copiár únicamente el archivo RouteMap.jar a la otra computadora, se necesitan tener Java instalado.
 
-En la aplicacion, boton **"Cargar configuracion"** y selecciona
-`resources/sample-graph.json`. Esto crea 5 nodos (A-E) con varias conexiones,
-incluida una calle de un solo sentido (B -> E), listo para correr BFS/DFS.
+Con Java instalado, para correrlo alcanza con hacer doble clic sobre RouteMap.jar o si no funciona así, desde una terminal parados en la carpeta donde está el archivo:
 
-Cada busqueda ejecutada agrega automaticamente una fila a `results.csv`
-(se crea en el directorio desde donde se ejecuta la app) con: caso,
-algoritmo, inicio, destino, nodos visitados, cantidad de aristas de la ruta
-y tiempo en milisegundos.
+#### java -jar RouteMap.jar
+
+Y se abre la ventana de la aplicación.
+
 ## Marco Teorico
 ### Grafos: 
 Son estructuras logicas que estan compuestas por una lista de nodos los cuales ayudan a conectar los grafos directamente, esa conexion se llama vertices, estos grafos pueden tener 0 conexiones, 1 conexion (unidireccional) o 2 conexiones (bidireccional), de forma simple es como si una calle tenga 2 sentidos, 1 sentido o no tenga salida.
