@@ -24,13 +24,14 @@
 #### 1. Portada................................................................................................1
 #### 2. Objetivo..............................................................................................2
 #### 3. Introduccion y Descripcion del problema..................................3
-#### 4. Marco Teorico ...................................................................................4
-#### 5. Arquitectura ......................................................................................5
-#### 6. Diagrama UML .................................................................................6
-#### 7. Mapas .................................................................................................7
-#### 8. Tabla comparativa ...........................................................................8
-#### 9. Conclusiones ....................................................................................9
-#### 10. Recomendaciones ........................................................................10
+#### 4. Funcionamineto de la Aplicacion de Escritorio........................4
+#### 5. Marco Teorico ..................................................................................5
+#### 6. Arquitectura .....................................................................................6
+#### 7. Diagrama UML .................................................................................7
+#### 8. Mapas ................................................................................................8
+#### 9. Tabla comparativa ..........................................................................9
+#### 10. Conclusiones ................................................................................10
+#### 11. Recomendaciones ........................................................................11
 
 
 
@@ -52,6 +53,21 @@
 ## Introduccion y Descripcion del Problema
 
 El problema principal de nuestro proyecto es lograr demostrar la utilidad de los grafos y como estos se aplican en mapas que nos ayudan a encontrar el camino más corto desde un punto A a un punto B. Otro desafio va a ser crear una interfaz interactiva y facil de entender para que el usuario tenga la facilitad en la interactuacion, debe de ser simple, para hacerlo debemos lograr utilizar el raton para generar los grafos visualmente donde queremos y conectarlos de esa misma forma. Tambien los grafos que se van a ver visualmente van a tener colores los cuales muestran el estado en el que estan, rojo sin recorrido, azul recorrido, verde el camino directo hacia el principio y fin, demostrando con una pequeña animacion el recorrido que genera el algoritmo seleccionado.
+## Funcionamineto de la Aplicacion de Escritorio
+
+Al abrirse la aplicacion nos muestra una pantalla en blanco con botones a la derecha que señalan las funciones que van a poder ejecutarse en el programa.
+
+En la parte de la derecha los botones, combo box y check box se dividen en 4 categorias:
+
+![alt text](resources/images/Menu.png)
+En la parte de la derecha los botones, combo box y check box se dividen en 4 categorias:
+* Mapa: Es donde se puede cargar la imagen directamente.
+
+* Nodos y Aristas: Es donde se puede uno agregar y eliminar nodos y aristas, que pueden ser bidireccionales o no, precionando el boton y luego precionando en el rectangulo gris, donde va a estar la imagen, puedes crear los nodos directamente en el lugar donde esta el raton, eliminar ese nodo, ese nodo agregarle una arista a otro nodo que seleciones bidireccional o unidireccional.
+
+* Peresistencia: Es para poder cargar y guardar las configuracion hechas de los nodos con sus respectivas aristas bidireccional o unidireccional.
+
+* Busqueda de ruta: Se elige los nodos de inicio y fin por los cuales van a ser la referencia para el metodo de busqueda de grafos que uno quiera utilizar, tambien se elige si quiere ver el recorrido completo de como va buscando el metodo de nodo a nodo o simplemente ver el camino final, despues de seleccionar todo eso se puede buscar, para inciar la busqueda, limpiar para poner los nodos del color por defecto y agregar un nuevo caso de comparacion para que se ingresen los datos que genero el metodo elegido de busqueda en el archivo results.csv que tendra todos casos, metodos, nodos visitados, aristas y tiempo de ejecucion que nos sirve para comparar los metodos. 
 ### Como compilar y ejecutar (sin IDE)
 
 Requiere JDK 11 o superior instalado (`javac -version`).
@@ -66,7 +82,7 @@ javac -d out -encoding UTF-8 @sources.txt
 java -cp out app.App
 ```
 
-## Como generar el JAR ejecutable
+### Como generar el JAR ejecutable
 
 ```bash
 cd out
@@ -76,7 +92,7 @@ cd ..
 java -jar RouteMap.jar
 ```
 
-## Como probar rapido con datos de ejemplo
+### Como probar rapido con datos de ejemplo
 
 En la aplicacion, boton **"Cargar configuracion"** y selecciona
 `resources/sample-graph.json`. Esto crea 5 nodos (A-E) con varias conexiones,
@@ -159,6 +175,16 @@ PROJECTORUTAMAPA/
 
 ## Diagrama UML
 
+![alt text](resources/images/UMLP1.png)
+![alt text](resources/images/UMLP2.png)
+
+En la primera parte del UML estan las clases principales que sirven para poder tener una estructura de los datos (modelo) que se van a utilizar y como estos van a estar conformados, el grafo que en esta parte es lo principal, contiene nodos en un Map que tienen Sets, este grafo utiliza los 2 metodos PahtFinder (BFS y DFS) que estos implemetan los metodos de PahtFinder y generan el PathResults. 
+
+La clase VisualizationMode es un ENUM que simplemente separa la visualizacion completa o la final (nombre)
+
+El FileGraphRepository es el encargado de leer y escribir la clase GraphData que tiene la informacion de los nodos y aristas que se colocaron y guardaste, para despues poder cargarlos, estos tienen una direccion que se guarda en el GraphRepository.
+
+En la segunda parte del UML esta el controlador que conecta el modelo y las vistas para darles una funcionalidad, la clase principal es el MapController que puede obtener la informacion guardada de FileGraphRepository, declarar el MapController.Listener que implementa el MainFrame (El marco principal) que contiene el Map panel, el encargado de mostrar la imagen, los nodos, las aristas y obtener las acciones del usuario mediante el MapPanel.Listener que verifica si existe un click o no y si esta en el area designada. El MapController tambien contiene el MapPoint que es la ubicacion y la identificacion del nodo (visualmente), y finalmente la clase App que es el main que ejecuta y crea el Main Frame y el MapController al iniciar el programa
 ## Mapas
 
 ![alt text](resources/images/Map1.png)
@@ -180,7 +206,13 @@ Tabla comparativa de resultados del mapa
 
 ## Conclusiones de los Integrantes
 
-Oliver Valdiviezo: Como podemos observar en la tabla comparativa el BFS es el metodo de busqueda mas confiable para poder llegar al camino con menos aristas de por medio en promedio (el camino más corto) en nodos sin peso, denotando que en todas las comparaciones este metodo siempre encuentra la ruta más corta, pero en la mayoria de casos (esto depende mucho de como recorra los nodos) comparados el BFS tiene muchos nodos visitados y tarda más debido a recorrer más nodos,tambien usando más memoria, en cambio el DFS es un metodo más directo que simplemente busca una ruta por donde se pueda llegar y nunca garantiza que sea la que tenga menos cantidad de aristas (camino más corto) este metodo de busqueda esta muy arraigado hacia donde recorra primero los nodos vecinos porque dependiendo de hacia donde se dirija se demorará más, al utilizar menos memoria recorrera los nodos más rapido, es un metodo que es erratico pero cumple con su cometido de ser eficiente y lograr su objetivo de llegar al nodo final, aunque no sea el camino más optimo.
+Oliver Valdiviezo: 
+
+Como podemos observar en la tabla comparativa el BFS es el metodo de busqueda mas confiable para poder llegar al camino con menos aristas de por medio en promedio (el camino más corto) en nodos sin peso, denotando que en todas las comparaciones este metodo siempre encuentra la ruta más corta, pero en la mayoria de casos (esto depende mucho de como recorra los nodos) comparados el BFS tiene muchos nodos visitados y tarda más debido a recorrer más nodos,tambien usando más memoria, en cambio el DFS es un metodo más directo que simplemente busca una ruta por donde se pueda llegar y nunca garantiza que sea la que tenga menos cantidad de aristas (camino más corto) este metodo de busqueda esta muy arraigado hacia donde recorra primero los nodos vecinos porque dependiendo de hacia donde se dirija se demorará más, al utilizar menos memoria recorrera los nodos más rapido, es un metodo que es erratico pero cumple con su cometido de ser eficiente y lograr su objetivo de llegar al nodo final, aunque no sea el camino más optimo.
+
+Williar Berrezueta:
+
+En los tres casos de prueba sobre el mapa del centro de Cuenca, BFS siempre encontró la ruta mas óptima, nunca una ruta peor que DFS, entonces esto confirma que, al explorar por niveles con una cola, BFS garantiza matemáticamente la ruta más corta en un grafo sin pesos y no es casualidad ni depende de la configuración del mapa, DFS entregó rutas de igual longitud solo en el caso 3 y peor en el caso 2, mi conclusión es que, para un problema de mapa de calles donde importa minimizar cuadras recorridas, BFS es mejor.
 
 
 ## Recomendaciones y aplicaciones futuras
