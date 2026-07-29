@@ -18,3 +18,7 @@ Caso,Algoritmo,Inicio,Destino,NodosVisitados,CantidadAristas,TiempoMs
 3,DFS,F,W,25,14,0,423
 4,BFS,Y,C,14,5,0,511
 4,DFS,Y,C,7,5,0,143
+1,DFS,K,A,2,1,0,107
+1,DFS,F,A,6,5,0,053
+1,DFS,G,A,6,5,0,053
+2,DFS,G,A,6,5,0,051

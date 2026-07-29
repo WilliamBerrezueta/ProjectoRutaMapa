@@ -191,6 +191,54 @@ En la segunda parte del UML esta el controlador que conecta el modelo y las vist
 
 Este mapa tiene 26 nodos y esta sacado del centro de Cuenca por la Catedral de la Inmaculada
 
+![alt text](resources/maps/MapaEjemplo2.png)
+
+### ejemplo comentado y explicado
+
+```json
+{
+  "nodes": [
+    { "id": "A", "x": 488, "y": 130 },
+    { "id": "B", "x": 400, "y": 211 },
+    { "id": "C", "x": 314, "y": 288 },
+    { "id": "D", "x": 235, "y": 349 },
+    { "id": "E", "x": 137, "y": 443 },
+    { "id": "F", "x": 28, "y": 595 },
+    { "id": "G", "x": 230, "y": 587 },
+    { "id": "H", "x": 367, "y": 510 },
+    { "id": "I", "x": 457, "y": 426 },
+    { "id": "J", "x": 541, "y": 354 },
+    { "id": "K", "x": 618, "y": 270 }
+  ],
+  "edges": [
+    { "from": "K", "to": "A", "bidirectional": true },
+    { "from": "D", "to": "C", "bidirectional": false },
+    { "from": "C", "to": "B", "bidirectional": false },
+    { "from": "B", "to": "A", "bidirectional": false },
+    { "from": "C", "to": "I", "bidirectional": false },
+    { "from": "F", "to": "E", "bidirectional": false },
+    { "from": "F", "to": "G", "bidirectional": false },
+    { "from": "D", "to": "E", "bidirectional": true },
+    { "from": "D", "to": "H", "bidirectional": true },
+    { "from": "H", "to": "G", "bidirectional": true },
+    { "from": "E", "to": "G", "bidirectional": true },
+    { "from": "H", "to": "I", "bidirectional": true },
+    { "from": "I", "to": "J", "bidirectional": true },
+    { "from": "B", "to": "J", "bidirectional": true },
+    { "from": "K", "to": "J", "bidirectional": true }
+  ]
+}
+```
+
+![alt text](resources/maps/EjemploMapa2Rellenado.png)
+
+## c-a---i--d-nV-cA-t
+## 2,DFS,G,A,6,5,0,051
+
+## Explicación
+
+DFS elige siempre el primer vecino no visitado de la lista de cada nodo, en este ejemplo (G -> A), tuvo suerte, por que su primera opción fue la correcta en los 5 pasos, sin ningún retroceso, por eso visitó exactamente 6 nodos, ni uno más, los mismos que terminaron en la ruta final, no siempre pasa eso.
+
 ## Tabla comparativa
 
 Tabla comparativa de resultados del mapa 
