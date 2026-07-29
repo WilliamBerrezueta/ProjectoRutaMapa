@@ -193,7 +193,7 @@ Este mapa tiene 26 nodos y esta sacado del centro de Cuenca por la Catedral de l
 
 ![alt text](resources/maps/MapaEjemplo2.png)
 
-### ejemplo comentado y explicado
+### Ejemplo comentado y explicado
 
 ```json
 {
@@ -232,8 +232,8 @@ Este mapa tiene 26 nodos y esta sacado del centro de Cuenca por la Catedral de l
 
 ![alt text](resources/maps/EjemploMapa2Rellenado.png)
 
-## c-a---i--d-nV-cA-t
-## 2,DFS,G,A,6,5,0,051
+### c-a---i--d-nV-cA-t
+### 2,DFS,G,A,6,5,0,051
 
 ## Explicación
 
@@ -241,7 +241,7 @@ DFS elige siempre el primer vecino no visitado de la lista de cada nodo, en este
 
 ## Tabla comparativa
 
-Tabla comparativa de resultados del mapa 
+Tabla comparativa de resultados del mapa 1
 
 | Caso | Algoritmo | Inicio | Destino | Nodos visitados | Cantidad de aristas | Tiempo (ms) |
 |------|-----------|--------|---------|------------------|----------------------|-------------|
@@ -252,13 +252,38 @@ Tabla comparativa de resultados del mapa
 | 3    | BFS       | Y      | C       | 14               | 5                    | 511         |
 | 3    | DFS       | Y      | C       | 7                | 5                    | 143         |
 
+### Preguntas
+#### ¿Qué diferencias se observaron en el orden de exploración de BFS y DFS?
+BFS explora por niveles, primero visita todos los vecinos directos del inicio, recién después los vecinos de esos vecinos y DFS se compromete con el primer vecino no visitado y se hunde por esa rama hasta el fondo antes de probar otra.
+
+#### ¿BFS encontró una ruta con menor cantidad de aristas en todos los casos evaluados?
+Sí, en todos los casos probados BFS nunca encontró una ruta peor que DFS, empataron, pero BFS nunca fue peor que DFS.
+
+#### ¿DFS encontró rutas diferentes a las obtenidas con BFS?
+En los casos donde la cantidad de aristas cambio, la ruta fue distinta y en los casos con empate en longitud, ambos encontraron la misma ruta, pero fue casualidad de cómo está armado ese mapa, no algo garantizado por DFS.
+
+#### ¿Qué algoritmo visitó más nodos en cada caso?
+BFS visitó más nodos en la mayoria de casos, porque siempre explora un nivel completo antes de avanzar.
+
+#### ¿Los tiempos de ejecución fueron suficientes para determinar cuál algoritmo es mejor?
+No, con grafos de 11 a 26 nodos, los tiempos están dominados por el overhead de la JVM, no por la complejidad real de cada algoritmo.
+
+#### ¿Cómo influyó la estructura del grafo en el comportamiento de cada algoritmo?
+El orden en que se agregaron las aristas al construir el grafo determina el orden de vecinos de cada nodo, y ese orden es lo único que decide qué rama prueba primero DFS, BFS no depende de eso y explora todas las ramas de un nivel por igual antes de avanzar, así que su resultado es indiferente al orden de creación de las aristas.
+
+#### ¿Qué ventajas aporta separar la lógica del algoritmo de la visualización?
+Gracias a la interfaz PathFinder<T>, MapController ejecuta BFS o DFS con el mismo código, esto permite comparar ambos algoritmos de forma justa y agregar un tercer algoritmo en el futuro sin tocar la interfaz gráfica.
+
+#### ¿Qué mejoras podrían implementarse para trabajar con calles ponderadas?
+Agregar un peso (distancia/tiempo) a EdgeRecord y a las conexiones de Graph, e implementar DijkstraPathFinder<T> como una nueva clase que implemente PathFinder<T>.
+
 ## Conclusiones de los Integrantes
 
-Oliver Valdiviezo: 
+### Oliver Valdiviezo: 
 
 Como podemos observar en la tabla comparativa el BFS es el metodo de busqueda mas confiable para poder llegar al camino con menos aristas de por medio en promedio (el camino más corto) en nodos sin peso, denotando que en todas las comparaciones este metodo siempre encuentra la ruta más corta, pero en la mayoria de casos (esto depende mucho de como recorra los nodos) comparados el BFS tiene muchos nodos visitados y tarda más debido a recorrer más nodos,tambien usando más memoria, en cambio el DFS es un metodo más directo que simplemente busca una ruta por donde se pueda llegar y nunca garantiza que sea la que tenga menos cantidad de aristas (camino más corto) este metodo de busqueda esta muy arraigado hacia donde recorra primero los nodos vecinos porque dependiendo de hacia donde se dirija se demorará más, al utilizar menos memoria recorrera los nodos más rapido, es un metodo que es erratico pero cumple con su cometido de ser eficiente y lograr su objetivo de llegar al nodo final, aunque no sea el camino más optimo.
 
-Williar Berrezueta:
+### Williar Berrezueta:
 
 En los tres casos de prueba sobre el mapa del centro de Cuenca, BFS siempre encontró la ruta mas óptima, nunca una ruta peor que DFS, entonces esto confirma que, al explorar por niveles con una cola, BFS garantiza matemáticamente la ruta más corta en un grafo sin pesos y no es casualidad ni depende de la configuración del mapa, DFS entregó rutas de igual longitud solo en el caso 3 y peor en el caso 2, mi conclusión es que, para un problema de mapa de calles donde importa minimizar cuadras recorridas, BFS es mejor.
 
